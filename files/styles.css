@@ -1,0 +1,345 @@
+/* styles.css — Diseño web minimalista, limpio y 100% responsivo (HTML5 + CSS3) */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+/* ─── Variables ───────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #F7F6F3;
+  --surface:     #FFFFFF;
+  --border:      #E4E2DC;
+  --text-primary:#1A1A18;
+  --text-muted:  #7A7870;
+  --accent:      #2D6A4F;
+  --accent-light:#D8EFE4;
+  --danger:      #C0392B;
+  --radius:      12px;
+  --shadow:      0 2px 12px rgba(0,0,0,0.07);
+  --font-body:   'DM Sans', sans-serif;
+  --font-mono:   'DM Mono', monospace;
+  --transition:  0.2s ease;
+}
+
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.week-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+}
+
+/* ─── Main Layout ─────────────────────────────────────────────────────────── */
+.app-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ─── Sections ────────────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { background: #245C43; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--bg); color: var(--danger); border-color: var(--danger); }
+
+/* ─── Week Grid ───────────────────────────────────────────────────────────── */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--day-color, #ccc);
+  transition: box-shadow var(--transition);
+}
+.day-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+.day-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.day-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.day-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: #fff;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  width: fit-content;
+  opacity: 0.9;
+}
+
+.day-member {
+  flex: 1;
+}
+
+.member-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.member-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.btn-replace {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition);
+  width: 100%;
+  text-align: left;
+}
+.btn-replace:hover {
+  background: #FFF0EE;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ─── Add Member Form ─────────────────────────────────────────────────────── */
+.add-form {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.input-field {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  background: var(--surface);
+  color: var(--text-primary);
+  transition: border-color var(--transition);
+  outline: none;
+}
+.input-field:focus { border-color: var(--accent); }
+.input-field::placeholder { color: var(--text-muted); }
+
+/* ─── Member List ─────────────────────────────────────────────────────────── */
+.member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  transition: opacity var(--transition);
+}
+.member-item.inactive { opacity: 0.5; }
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.member-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.member-item.inactive .member-status-dot { background: var(--border); }
+
+.member-item-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.member-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-toggle {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+.btn-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  transition: all var(--transition);
+}
+.btn-remove:hover { background: #FFF0EE; color: var(--danger); }
+
+/* ─── Empty State ─────────────────────────────────────────────────────────── */
+.empty-state {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ─── Toast ───────────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--text-primary);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.25s ease;
+  z-index: 100;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.toast.visible { opacity: 1; transform: translateY(0); }
+.toast-success { background: var(--accent); }
+.toast-error   { background: var(--danger); }
+.toast-info    { background: #555; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .week-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .week-grid > .day-card:last-child {
+    grid-column: span 2;
+  }
+  .app-header {
+    padding: 1rem;
+  }
+  .app-main {
+    padding: 1.25rem 1rem;
+  }
+  .add-form {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+  .week-grid > .day-card:last-child {
+    grid-column: span 1;
+  }
+}
