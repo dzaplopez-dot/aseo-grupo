@@ -1,11 +1,20 @@
 // ═══════════════════════════════════════════════════
 //  app.js — Cronograma de Aseo · ADSO SENA 2026
-//  Fase 4: Clean Code
+//  Fase 5: SOLID — Trazabilidad de principios
+//
+//  [S] Single Responsibility — cada función hace UNA sola cosa
+//  [O] Open/Closed          — abierto a extensión, cerrado a modificación
+//  [L] Liskov               — funciones intercambiables sin romper el sistema
+//  [I] Interface Segregation — cada función expone solo lo que necesita
+//  [D] Dependency Inversion  — depende de abstracciones, no de detalles
 // ═══════════════════════════════════════════════════
 
 
 // ───────────────────────────────────────────────────
 //  CONFIGURACIÓN
+//  [O] Para agregar un nuevo día o cambiar colores,
+//      solo se modifica este bloque. El resto del
+//      código no necesita cambiar.
 // ───────────────────────────────────────────────────
 
 /** Orden de los días de la semana laboral */
@@ -65,10 +74,15 @@ const DURACION_TOAST = 3000;
 
 // ───────────────────────────────────────────────────
 //  PERSISTENCIA
+//  [S] Estas funciones solo se encargan de guardar
+//      y cargar datos. No saben nada de la UI.
+//  [I] Cada función expone solo una operación:
+//      guardar, cargar o borrar.
 // ───────────────────────────────────────────────────
 
 /**
  * Guarda el mapa de reemplazos en localStorage.
+ * [S] Responsabilidad única: persistir datos.
  * @param {Object} reemplazos - { [dia]: { [nombre]: nombreReemplazo } }
  */
 const guardarReemplazos = (reemplazos) => {
@@ -77,7 +91,9 @@ const guardarReemplazos = (reemplazos) => {
 
 /**
  * Carga el mapa de reemplazos desde localStorage.
- * Retorna un objeto vacío si no hay datos guardados.
+ * [S] Responsabilidad única: leer datos guardados.
+ * [L] Si cambiamos localStorage por otra fuente,
+ *     el resto del sistema no se entera.
  * @returns {Object}
  */
 const cargarReemplazos = () => {
@@ -87,6 +103,7 @@ const cargarReemplazos = () => {
 
 /**
  * Elimina todos los reemplazos guardados.
+ * [S] Responsabilidad única: borrar datos.
  */
 const borrarReemplazos = () => {
   localStorage.removeItem(CLAVE_STORAGE);
@@ -95,15 +112,20 @@ const borrarReemplazos = () => {
 
 // ───────────────────────────────────────────────────
 //  FECHAS
+//  [S] Solo se ocupan del cálculo y formato de fechas.
+//      No tocan el DOM ni el localStorage.
 // ───────────────────────────────────────────────────
 
 /**
- * Retorna la fecha ISO (YYYY-MM-DD) del lunes de la semana actual.
- * @returns {string}
+ * Retorna la fecha ISO del lunes de la semana actual.
+ * [S] Responsabilidad única: calcular la fecha del lunes.
+ * [L] Se puede reemplazar por otra lógica de fecha
+ *     sin afectar el resto del sistema.
+ * @returns {string} Ejemplo: "2026-04-20"
  */
 const obtenerLunesActual = () => {
   const hoy = new Date();
-  const diaSemana = hoy.getDay(); // 0 = domingo, 1 = lunes...
+  const diaSemana = hoy.getDay();
   const diasHastaLunes = diaSemana === 0 ? -6 : 1 - diaSemana;
   const lunes = new Date(hoy);
   lunes.setDate(hoy.getDate() + diasHastaLunes);
@@ -112,9 +134,11 @@ const obtenerLunesActual = () => {
 
 /**
  * Convierte una fecha ISO a texto legible en español.
- * Ejemplo: "2026-04-20" → "Semana del 20 de abril de 2026"
+ * [S] Responsabilidad única: formatear la fecha.
+ * [O] El locale 'es-CO' se puede cambiar sin tocar
+ *     ninguna otra función.
  * @param {string} fechaISO
- * @returns {string}
+ * @returns {string} Ejemplo: "Semana del 20 de abril de 2026"
  */
 const formatearEtiquetaSemana = (fechaISO) => {
   const fecha = new Date(fechaISO + 'T12:00:00');
@@ -129,10 +153,17 @@ const formatearEtiquetaSemana = (fechaISO) => {
 
 // ───────────────────────────────────────────────────
 //  REEMPLAZO
+//  [S] Cada función tiene una sola responsabilidad:
+//      obtener candidatos, elegir uno, o registrar.
+//  [D] registrarAusencia depende de funciones
+//      abstractas (cargar, guardar, pintar),
+//      no de implementaciones concretas.
 // ───────────────────────────────────────────────────
 
 /**
  * Obtiene todos los integrantes que NO son del día indicado.
+ * [S] Responsabilidad única: filtrar candidatos.
+ * [I] Solo recibe el día excluido, nada más.
  * @param {string} diaExcluido
  * @returns {string[]}
  */
@@ -142,8 +173,12 @@ const obtenerCandidatosReemplazo = (diaExcluido) =>
     .flatMap(dia => INTEGRANTES_POR_DIA[dia]);
 
 /**
- * Selecciona un integrante al azar de la lista de candidatos.
- * Retorna null si no hay candidatos disponibles.
+ * Selecciona un elemento al azar de un arreglo.
+ * [S] Responsabilidad única: elegir aleatoriamente.
+ * [L] Se puede reemplazar por otra estrategia
+ *     (por ejemplo, el menos usado) sin romper nada.
+ * [O] Abierta a extensión: se podría recibir una
+ *     estrategia como parámetro en el futuro.
  * @param {string[]} candidatos
  * @returns {string | null}
  */
@@ -154,7 +189,11 @@ const elegirAlAzar = (candidatos) => {
 };
 
 /**
- * Registra la ausencia de un integrante y asigna su reemplazo.
+ * Orquesta el proceso completo de ausencia:
+ * selecciona reemplazo, guarda y actualiza la UI.
+ * [D] Depende de funciones abstractas:
+ *     cargarReemplazos, guardarReemplazos, pintarGrilla.
+ *     Si cambian internamente, esta función no cambia.
  * @param {string} dia
  * @param {string} nombreAusente
  */
@@ -181,10 +220,13 @@ const registrarAusencia = (dia, nombreAusente) => {
 
 // ───────────────────────────────────────────────────
 //  CONSTRUCCIÓN DE HTML
+//  [S] Cada función genera solo un fragmento de HTML.
+//  [I] Reciben solo los datos que necesitan.
 // ───────────────────────────────────────────────────
 
 /**
- * Genera el HTML de un integrante con reemplazo activo.
+ * HTML de un integrante con reemplazo activo (ausente).
+ * [S] Responsabilidad única: construir este fragmento.
  * @param {string} nombre
  * @param {string} reemplazo
  * @returns {string}
@@ -197,7 +239,9 @@ const htmlIntegranteAusente = (nombre, reemplazo) => `
 `;
 
 /**
- * Genera el HTML de un integrante activo con botón de ausencia.
+ * HTML de un integrante activo con botón de ausencia.
+ * [S] Responsabilidad única: construir este fragmento.
+ * [I] Solo recibe nombre y día, nada más.
  * @param {string} nombre
  * @param {string} dia
  * @returns {string}
@@ -213,7 +257,8 @@ const htmlIntegranteActivo = (nombre, dia) => `
 `;
 
 /**
- * Genera el HTML de la cabecera de una tarjeta de día.
+ * HTML de la cabecera de una tarjeta.
+ * [S] Responsabilidad única: construir la cabecera.
  * @param {string} dia
  * @returns {string}
  */
@@ -224,7 +269,8 @@ const htmlCabeceraTarjeta = (dia) => `
 `;
 
 /**
- * Convierte el nombre del día a una clase CSS válida (sin tildes).
+ * Convierte el nombre del día a una clase CSS válida sin tildes.
+ * [S] Responsabilidad única: normalizar texto para CSS.
  * Ejemplo: "miércoles" → "miercoles"
  * @param {string} dia
  * @returns {string}
@@ -235,12 +281,17 @@ const diaAClaseCSS = (dia) =>
 
 // ───────────────────────────────────────────────────
 //  RENDERIZADO
+//  [S] Cada función tiene una sola tarea de UI.
+//  [D] pintarGrilla no sabe de dónde vienen los
+//      reemplazos, solo los recibe y los pinta.
 // ───────────────────────────────────────────────────
 
 /**
- * Construye y retorna el elemento DOM de una tarjeta de día.
+ * Construye el elemento DOM completo de una tarjeta de día.
+ * [S] Responsabilidad única: crear la tarjeta.
+ * [D] Recibe los reemplazos como parámetro, no los busca.
  * @param {string} dia
- * @param {Object} reemplazosDelDia - { [nombre]: nombreReemplazo }
+ * @param {Object} reemplazosDelDia
  * @returns {HTMLElement}
  */
 const crearTarjetaDia = (dia, reemplazosDelDia) => {
@@ -260,7 +311,6 @@ const crearTarjetaDia = (dia, reemplazosDelDia) => {
     <div class="tarjeta-cuerpo">${listaHTML}</div>
   `;
 
-  // Conectar botones de ausencia
   tarjeta.querySelectorAll('.btn-ausencia-mini').forEach(btn => {
     btn.addEventListener('click', (e) => {
       registrarAusencia(e.target.dataset.dia, e.target.dataset.nombre);
@@ -271,8 +321,11 @@ const crearTarjetaDia = (dia, reemplazosDelDia) => {
 };
 
 /**
- * Renderiza todas las tarjetas de días en el contenedor de la grilla.
- * @param {Object} reemplazos - { [dia]: { [nombre]: nombreReemplazo } }
+ * Renderiza todas las tarjetas en el contenedor de la grilla.
+ * [S] Responsabilidad única: pintar la grilla completa.
+ * [D] Recibe los reemplazos como parámetro,
+ *     no accede directamente a localStorage.
+ * @param {Object} reemplazos
  */
 const pintarGrilla = (reemplazos) => {
   const contenedor = document.getElementById('grilla-dias');
@@ -286,7 +339,9 @@ const pintarGrilla = (reemplazos) => {
 };
 
 /**
- * Muestra una notificación temporal en la esquina inferior derecha.
+ * Muestra una notificación temporal en pantalla.
+ * [S] Responsabilidad única: mostrar feedback visual.
+ * [I] Solo necesita el mensaje y el tipo.
  * @param {string} mensaje
  * @param {'info' | 'exito' | 'error'} tipo
  */
@@ -309,11 +364,12 @@ const mostrarNotificacion = (mensaje, tipo = 'info') => {
 
 // ───────────────────────────────────────────────────
 //  ACCIONES DEL USUARIO
+//  [S] Cada acción responde a un solo evento.
 // ───────────────────────────────────────────────────
 
 /**
- * Maneja el click en "Reiniciar reemplazos":
- * pide confirmación, borra datos y repinta la grilla.
+ * Reinicia todos los reemplazos de la semana.
+ * [S] Responsabilidad única: manejar el reinicio.
  */
 const reiniciarReemplazos = () => {
   if (!confirm('¿Limpiar todos los reemplazos de esta semana?')) return;
@@ -324,12 +380,16 @@ const reiniciarReemplazos = () => {
 
 
 // ───────────────────────────────────────────────────
-//  INICIO DE LA APLICACIÓN
+//  INICIO
+//  [D] iniciarApp orquesta todo sin conocer detalles
+//      internos de cada módulo.
 // ───────────────────────────────────────────────────
 
 /**
- * Inicializa la aplicación:
- * muestra la semana actual, carga datos y conecta eventos.
+ * Punto de entrada de la aplicación.
+ * [S] Responsabilidad única: inicializar y conectar módulos.
+ * [D] Depende de abstracciones (funciones), no de
+ *     implementaciones concretas de DOM o storage.
  */
 const iniciarApp = () => {
   const lunes = obtenerLunesActual();
