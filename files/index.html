@@ -3,51 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestión de Aseo del Grupo</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>Cronograma de Aseo — ADSO SENA 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-  <header class="app-header">
-    <h1 class="app-title">🧹 Aseo del Grupo</h1>
-    <p id="week-label" class="week-label"></p>
+ 
+  <header class="header">
+    <div class="header-izquierda">
+      <div>
+        <h1 class="header-titulo">Cronograma de Aseo</h1>
+        <p class="header-subtitulo">Análisis y Desarrollo de Software · ADSO · 2026</p>
+      </div>
+    </div>
+    <div class="header-derecha">
+      <span class="semana-label" id="semana-label">Cargando...</span>
+      <button class="btn-reiniciar" id="btn-limpiar">↺ Reiniciar reemplazos</button>
+    </div>
   </header>
-
-  <main class="app-main">
-
-    <!-- Sección: Semana -->
-    <section class="section">
-      <div class="section-header">
-        <h2 class="section-title">Asignación Semanal</h2>
-        <button id="btn-generate" class="btn btn-primary">⚡ Generar semana</button>
-      </div>
-      <div id="week-container"></div>
-    </section>
-
-    <!-- Sección: Integrantes -->
-    <section class="section">
-      <div class="section-header">
-        <h2 class="section-title">Integrantes del Grupo</h2>
-        <button id="btn-clear" class="btn btn-ghost">🗑 Limpiar todo</button>
-      </div>
-
-      <form id="add-member-form" class="add-form">
-        <input
-          id="member-name-input"
-          type="text"
-          placeholder="Nombre del integrante..."
-          class="input-field"
-          maxlength="40"
-          required
-        />
-        <button type="submit" class="btn btn-primary">+ Agregar</button>
-      </form>
-
-      <div id="member-list"></div>
-    </section>
-
+ 
+  <main class="contenido">
+    <div class="grilla-dias" id="grilla-dias"></div>
   </main>
-
-  <script type="module" src="js/main.js"></script>
+ 
+  <script src="app.js"></script>
 </body>
 </html>

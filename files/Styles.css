@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* ── Variables ──────────────────────────────────────── */
+:root {
+  --fondo:          #F0EEE9;
+  --blanco:         #FFFFFF;
+  --borde:          #E2DED6;
+  --texto:          #1C1C1A;
+  --texto-suave:    #7A776E;
+  --rojo:           #C0392B;
+  --sombra:         0 2px 16px rgba(0,0,0,0.07);
+  --sombra-hover:   0 6px 24px rgba(0,0,0,0.12);
+  --radio:          16px;
+  --font:           'Plus Jakarta Sans', sans-serif;
+
+  /* Colores por día */
+  --lunes-bg:       #EBF1FA;
+  --lunes-borde:    #C2D4EE;
+  --lunes-badge-bg: #D4E5F7;
+  --lunes-badge:    #1A5499;
+  --lunes-dot:      #4A6FA5;
+  --lunes-punto:    #4A6FA5;
+
+  --martes-bg:      #EBF5ED;
+  --martes-borde:   #B4D9B9;
+  --martes-badge-bg:#CBE8CF;
+  --martes-badge:   #2E6635;
+  --martes-dot:     #6B9E78;
+
+  --mierc-bg:       #F2EBF5;
+  --mierc-borde:    #D0B0DC;
+  --mierc-badge-bg: #E5D0EF;
+  --mierc-badge:    #5C3A8A;
+  --mierc-dot:      #9B6B9E;
+
+  --jueves-bg:      #EFEFEF;
+  --jueves-borde:   #C8C8C8;
+  --jueves-badge-bg:#E2E2E2;
+  --jueves-badge:   #555555;
+  --jueves-dot:     #8C8C8C;
+
+  --viernes-bg:     #FAF4E5;
+  --viernes-borde:  #DDD09A;
+  --viernes-badge-bg:#F5E8BF;
+  --viernes-badge:  #7A5000;
+  --viernes-dot:    #C4A84F;
+}
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--fondo);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  background: var(--blanco);
+  border-bottom: 1px solid var(--borde);
+  padding: 1.1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 1px 0 var(--borde);
+}
+
+.header-izquierda {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--texto);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.header-subtitulo {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+.header-derecha {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.semana-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.btn-reiniciar {
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--texto-suave);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.btn-reiniciar:hover {
+  color: var(--rojo);
+  border-color: var(--rojo);
+  background: #FFF5F5;
+}
+
+/* ── Contenido ──────────────────────────────────────── */
+.contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── Grilla ─────────────────────────────────────────── */
+.grilla-dias {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+/* ── Tarjeta ─────────────────────────────────────────── */
+.tarjeta-dia {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  border: 1px solid var(--borde);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-dia:hover {
+  box-shadow: var(--sombra-hover);
+  transform: translateY(-2px);
+}
+
+/* Cabecera de tarjeta */
+.tarjeta-cabecera {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.dia-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.dia-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+}
+
+/* Cuerpo de tarjeta */
+.tarjeta-cuerpo {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* ── Integrante ─────────────────────────────────────── */
+.integrante-dia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--fondo);
+  transition: background 0.15s;
+  min-height: 48px;
+}
+
+.integrante-dia:hover {
+  background: #E8E5DE;
+}
+
+.integrante-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.punto-dia {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nombre-integrante {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--texto);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Botón de ausencia */
+.btn-ausencia-mini {
+  background: transparent;
+  border: 1px solid transparent;
+  color: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.integrante-dia:hover .btn-ausencia-mini {
+  color: var(--texto-suave);
+  border-color: var(--borde);
+}
+
+.btn-ausencia-mini:hover {
+  background: #FFE8E6 !important;
+  color: var(--rojo) !important;
+  border-color: #F5C0BC !important;
+}
+
+/* Estado ausente */
+.integrante-dia.ausente {
+  background: #FFF4F3;
+  border: 1px solid #F5C0BC;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.nombre-tachado {
+  font-size: 12px;
+  text-decoration: line-through;
+  color: var(--texto-suave);
+}
+
+.nombre-reemplazo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rojo);
+}
+
+/* ── Colores por día ─────────────────────────────────── */
+.tarjeta-dia.lunes .tarjeta-cabecera   { background: var(--lunes-bg);   border-bottom-color: var(--lunes-borde); }
+.tarjeta-dia.lunes .dia-badge          { background: var(--lunes-badge-bg); color: var(--lunes-badge); }
+.tarjeta-dia.lunes .punto-dia          { background: var(--lunes-dot); }
+
+.tarjeta-dia.martes .tarjeta-cabecera  { background: var(--martes-bg);  border-bottom-color: var(--martes-borde); }
+.tarjeta-dia.martes .dia-badge         { background: var(--martes-badge-bg); color: var(--martes-badge); }
+.tarjeta-dia.martes .punto-dia         { background: var(--martes-dot); }
+
+.tarjeta-dia.miercoles .tarjeta-cabecera { background: var(--mierc-bg); border-bottom-color: var(--mierc-borde); }
+.tarjeta-dia.miercoles .dia-badge        { background: var(--mierc-badge-bg); color: var(--mierc-badge); }
+.tarjeta-dia.miercoles .punto-dia        { background: var(--mierc-dot); }
+
+.tarjeta-dia.jueves .tarjeta-cabecera  { background: var(--jueves-bg);  border-bottom-color: var(--jueves-borde); }
+.tarjeta-dia.jueves .dia-badge         { background: var(--jueves-badge-bg); color: var(--jueves-badge); }
+.tarjeta-dia.jueves .punto-dia         { background: var(--jueves-dot); }
+
+.tarjeta-dia.viernes .tarjeta-cabecera { background: var(--viernes-bg); border-bottom-color: var(--viernes-borde); }
+.tarjeta-dia.viernes .dia-badge        { background: var(--viernes-badge-bg); color: var(--viernes-badge); }
+.tarjeta-dia.viernes .punto-dia        { background: var(--viernes-dot); }
+
+/* ── Toast ───────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--texto);
+  color: white;
+  padding: 0.8rem 1.3rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 100;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.toast.visible  { opacity: 1; transform: translateY(0); }
+.toast.exito    { background: #2D6A4F; }
+.toast.error    { background: var(--rojo); }
+
+/* ── Responsivo ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grilla-dias { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 680px) {
+  .grilla-dias { grid-template-columns: repeat(2, 1fr); }
+  .header { padding: 1rem; flex-direction: column; align-items: flex-start; }
+  .header-derecha { width: 100%; }
+  .contenido { padding: 1.25rem 1rem; }
+}
+
+@media (max-width: 400px) {
+  .grilla-dias { grid-template-columns: 1fr; }
+}
